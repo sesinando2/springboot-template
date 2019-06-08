@@ -1,0 +1,3 @@
+package net.dlcruz.download.transmission
+
+class TransmissionClient(private val transmissionConfigProperties: TransmissionConfigProperties)

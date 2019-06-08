@@ -1,9 +1,11 @@
 package net.dlcruz
 
+import net.dlcruz.download.transmission.TransmissionConfigProperties
 import net.dlcruz.logging.LoggerDelegate
 import org.apache.commons.lang3.StringUtils
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.event.ApplicationReadyEvent
+import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.info.BuildProperties
 import org.springframework.boot.info.GitProperties
 import org.springframework.boot.runApplication
@@ -12,6 +14,7 @@ import org.springframework.core.env.Environment
 import java.net.InetAddress
 import java.util.* // ktlint-disable no-wildcard-imports
 
+@EnableConfigurationProperties(TransmissionConfigProperties::class)
 @SpringBootApplication
 class Application(
     private val environment: Environment,

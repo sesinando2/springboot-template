@@ -1,11 +1,11 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/template?serverTimezone=UTC&createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost:3306/download?serverTimezone=UTC&createDatabaseIfNotExist=true
     username: root
     password:
     driver-class-name: com.mysql.jdbc.Driver
   liquibase:
-    enabled: true
+    enabled: false
     change-log: classpath:/db/changelog/db.changelog-master.yml
 
 server:
@@ -23,3 +23,6 @@ management:
   endpoint:
     health:
       show-details: always
+
+transmission:
+  url: http://192.168.1.184:9091/transmission/rpc
