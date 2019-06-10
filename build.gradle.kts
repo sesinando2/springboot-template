@@ -87,6 +87,7 @@ dependencies {
     testImplementation("com.ninja-squad:springmockk:1.1.2")
     testImplementation("io.projectreactor:reactor-test")
     testImplementation("com.h2database:h2:1.4.199")
+    testImplementation("org.springframework.cloud:spring-cloud-contract-wiremock:2.1.1.RELEASE")
 
     kapt("org.springframework.boot:spring-boot-configuration-processor")
 
