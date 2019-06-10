@@ -7,6 +7,9 @@ buildscript {
     repositories {
         mavenCentral()
         jcenter()
+        maven { setUrl("https://repo.spring.io/snapshot") }
+        maven { setUrl("https://repo.spring.io/milestone") }
+        maven { setUrl("https://repo.spring.io/release") }
     }
 
     dependencies {
@@ -21,7 +24,7 @@ plugins {
     kotlin("jvm") version "1.2.71"
     kotlin("plugin.spring") version "1.2.71"
     kotlin("kapt") version "1.2.71"
-    id("com.gorylenko.gradle-git-properties") version "1.5.1"
+    id("com.gorylenko.gradle-git-properties") version "2.0.0"
 }
 
 /* Start Liquibase Config */
@@ -56,6 +59,9 @@ val developmentOnly: Configuration by configurations.creating {
 
 repositories {
     mavenCentral()
+    maven { setUrl("https://repo.spring.io/snapshot") }
+    maven { setUrl("https://repo.spring.io/milestone") }
+    maven { setUrl("https://repo.spring.io/release") }
 }
 
 dependencies {
@@ -87,7 +93,7 @@ dependencies {
     testImplementation("com.ninja-squad:springmockk:1.1.2")
     testImplementation("io.projectreactor:reactor-test")
     testImplementation("com.h2database:h2:1.4.199")
-    testImplementation("org.springframework.cloud:spring-cloud-contract-wiremock:2.1.1.RELEASE")
+    testImplementation("org.springframework.cloud:spring-cloud-starter-contract-stub-runner:2.1.1.RELEASE")
 
     kapt("org.springframework.boot:spring-boot-configuration-processor")
 

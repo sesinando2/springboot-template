@@ -1,0 +1,13 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/transmission/rpc"
+  },
+  "response": {
+    "status": 409,
+    "body": "initial.html",
+    "headers": {
+      "Content-Type": "text/html; charset=ISO-8859-1"
+    }
+  }
+}

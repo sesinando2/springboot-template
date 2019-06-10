@@ -1,0 +1,25 @@
+{
+  "arguments": {
+    "torrents": [
+      {
+        "error": 0,
+        "errorString": "",
+        "eta": -1,
+        "etaIdle": -1,
+        "hashString": "4e4eed50b83272e2a203ed48227e5d70119ad4d8",
+        "id": 36,
+        "leftUntilDone": 383877549,
+        "name": "[HorribleSubs] One Punch Man S2 - 01 [720p].mkv",
+        "percentDone": 0,
+        "queuePosition": 0,
+        "rateDownload": 0,
+        "rateUpload": 0,
+        "secondsDownloading": 15,
+        "secondsSeeding": 0,
+        "status": 4,
+        "totalSize": 383877549
+      }
+    ]
+  },
+  "result": "success"
+}

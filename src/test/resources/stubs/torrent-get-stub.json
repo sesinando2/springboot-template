@@ -1,0 +1,18 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/transmission/rpc",
+    "headers": {
+      "X-Transmission-Session-Id": {
+        "equalTo": "TlTPAGWbQttbSL9RT7rXDTj1ir81J0tbnVUm0zeBnqBFlWNQ"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "get-torrent-response.json",
+    "headers": {
+      "Content-Type": "application/json; charset=UTF-8"
+    }
+  }
+}
