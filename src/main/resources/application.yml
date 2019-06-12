@@ -26,3 +26,7 @@ management:
 
 transmission:
   url: http://secure:9091/transmission/rpc
+
+logging:
+  level:
+    net.dlcruz: debug

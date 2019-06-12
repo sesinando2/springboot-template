@@ -6,14 +6,13 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.HttpStatus
 import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.web.reactive.function.BodyInserters
 import java.util.regex.Pattern
 
 @FunctionalTest
-class TransmissionIntegrationTest {
+class TransmissionFunctionalTest {
 
     @Value("\${transmission.url}")
     private lateinit var url: String
