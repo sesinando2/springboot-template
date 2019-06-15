@@ -1,0 +1,32 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/transmission/rpc",
+    "headers": {
+      "X-Transmission-Session-Id": {
+        "equalTo": "TlTPAGWbQttbSL9RT7rXDTj1ir81J0tbnVUm0zeBnqBFlWNQ"
+      }
+    },
+    "bodyPatterns": [
+      {
+        "matchesJsonPath": "$.arguments.ids"
+      },
+      {
+        "matchesJsonPath": "$.arguments.delete-local-data"
+      },
+      {
+        "matchesJsonPath": {
+          "expression": "$.method",
+          "equalTo": "torrent-remove"
+        }
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "delete-torrent-response.json",
+    "headers": {
+      "Content-Type": "application/json; charset=UTF-8"
+    }
+  }
+}

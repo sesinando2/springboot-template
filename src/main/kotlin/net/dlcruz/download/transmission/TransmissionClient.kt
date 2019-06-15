@@ -18,23 +18,17 @@ class TransmissionClient(
     private val properties: TransmissionConfigProperties
 ) {
 
-    val logger by LoggerDelegate()
+    private val logger by LoggerDelegate()
+    private var client = WebClient.builder().baseUrl(properties.url).build()
 
-    var client = WebClient.builder().baseUrl(properties.url).build()
-
-    val newGetRpcRequest: RpcRequest
-        get() {
-            val arguments = mapper.createObjectNode()
-            val fields = arguments.putArray("fields")
-            GetFields.all.forEach { fields.add(it) }
-            return RpcRequest(Method.TORRENT_GET, arguments)
-        }
-
-    fun list() = send(newGetRpcRequest)
+    fun list() = send(createGetRequest())
 
     fun add(link: String) = send(RpcRequest(
         method = Method.TORRENT_ADD,
         arguments = mapper.createObjectNode().put("filename", link)))
+
+    fun delete(vararg ids: Int, deleteLocalData: Boolean) =
+        send(createRemoveRequest(*ids, deleteLocalData = deleteLocalData))
 
     private fun send(request: RpcRequest) =
         exchange { client ->
@@ -67,5 +61,23 @@ class TransmissionClient(
         return Regex(""".*<code>$HEADER_SESSION: (\w+)<\/code>.*""")
             .find(response)?.groups?.get(1)?.value
             ?: throw IllegalArgumentException("Unable to parse $HEADER_SESSION from $response")
+    }
+
+    private fun createGetRequest(vararg ids: Int): RpcRequest {
+        val arguments = mapper.createObjectNode()
+        val fields = arguments.putArray("fields")
+        GetFields.all.forEach { fields.add(it) }
+        if (ids.isNotEmpty()) {
+            val idsArray = arguments.putArray("ids")
+            ids.forEach { idsArray.add(it) }
+        }
+        return RpcRequest(Method.TORRENT_GET, arguments)
+    }
+
+    private fun createRemoveRequest(vararg ids: Int, deleteLocalData: Boolean): RpcRequest {
+        val arguments = mapper.createObjectNode().put("delete-local-data", deleteLocalData)
+        val idsArray = arguments.putArray("ids")
+        ids.forEach { idsArray.add(it) }
+        return RpcRequest(Method.TORRENT_REMOVE, arguments)
     }
 }
