@@ -32,12 +32,18 @@ class TransmissionClient(
 
     fun list() = send(newGetRpcRequest)
 
+    fun add(link: String) = send(RpcRequest(
+        method = Method.TORRENT_ADD,
+        arguments = mapper.createObjectNode().put("filename", link)))
+
     private fun send(request: RpcRequest) =
         exchange { client ->
             request.toMono()
                 .doOnNext { logger.debug("Sending RPC Request: {}", mapper.writeValueAsString(it)) }
                 .flatMap { client.post().body(BodyInserters.fromObject(it)).exchange() }
-        }.flatMap { it.bodyToMono(RpcResponse::class.java) }
+        }
+            .flatMap { it.bodyToMono(RpcResponse::class.java) }
+            .doOnNext { logger.debug("RpcResponse: {}", mapper.writeValueAsString(it)) }
 
     private fun exchange(request: TransmissionRequest) =
         request(client).flatMap {
@@ -58,7 +64,6 @@ class TransmissionClient(
     }
 
     private fun parseSessionId(response: String): String {
-        logger.debug("Parsing response: {}", response)
         return Regex(""".*<code>$HEADER_SESSION: (\w+)<\/code>.*""")
             .find(response)?.groups?.get(1)?.value
             ?: throw IllegalArgumentException("Unable to parse $HEADER_SESSION from $response")

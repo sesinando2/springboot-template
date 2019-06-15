@@ -49,11 +49,24 @@ class TransmissionClientTest(
         StepVerifier.create(producer).expectNext(expectedResponse).expectComplete().verify()
 
         verify(1, postRequestedFor(urlEqualTo("/transmission/rpc"))
-            .withoutHeader("X-Transmission-Session-Id")
+            .withHeader("X-Transmission-Session-Id", equalTo("TlTPAGWbQttbSL9RT7rXDTj1ir81J0tbnVUm0zeBnqBFlWNQ"))
             .withRequestBody(equalToJson(expectedRequest)))
+    }
+
+    @Test
+    fun `should be able to add torrent`() {
+        val link = "http://download-link.com"
+        val producer = client.add(link)
+
+        val responseResource = TestHelper.readAsStream("add-torrent-response.json").readAllBytes()
+        val expectedResponse = mapper.readValue<RpcResponse>(responseResource, RpcResponse::class.java)
+
+        StepVerifier.create(producer).expectNext(expectedResponse).expectComplete().verify()
 
         verify(1, postRequestedFor(urlEqualTo("/transmission/rpc"))
             .withHeader("X-Transmission-Session-Id", equalTo("TlTPAGWbQttbSL9RT7rXDTj1ir81J0tbnVUm0zeBnqBFlWNQ"))
-            .withRequestBody(equalToJson(expectedRequest)))
+            .withRequestBody(matchingJsonPath("$.method", equalTo("torrent-add")))
+            .withRequestBody(matchingJsonPath("$.arguments.filename", equalTo(link)))
+            .withRequestBody(matchingJsonPath("$.arguments.filename", equalTo(link))))
     }
 }

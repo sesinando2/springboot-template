@@ -9,22 +9,19 @@
     },
     "bodyPatterns": [
       {
-        "matchesJsonPath": {
-          "expression": "$.arguments.fields.length",
-          "equalTo": 16
-        }
+        "matchesJsonPath": "$.arguments.filename"
       },
       {
         "matchesJsonPath": {
           "expression": "$.method",
-          "equalTo": "torrent-get"
+          "equalTo": "torrent-add"
         }
       }
     ]
   },
   "response": {
     "status": 200,
-    "bodyFileName": "get-torrent-response.json",
+    "bodyFileName": "add-torrent-response.json",
     "headers": {
       "Content-Type": "application/json; charset=UTF-8"
     }
