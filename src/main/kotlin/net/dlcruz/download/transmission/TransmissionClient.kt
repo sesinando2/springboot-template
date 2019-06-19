@@ -34,10 +34,10 @@ class TransmissionClient(
         exchange { client ->
             request.toMono()
                 .doOnNext { logger.debug("Sending RPC Request: {}", mapper.writeValueAsString(it)) }
-                .flatMap { client.post().body(BodyInserters.fromObject(it)).exchange() }
+                .map { BodyInserters.fromObject(it) }
+                .map { client.post().body(it) }
+                .flatMap { it.exchange() }
         }
-            .flatMap { it.bodyToMono(RpcResponse::class.java) }
-            .doOnNext { logger.debug("RpcResponse: {}", mapper.writeValueAsString(it)) }
 
     private fun exchange(request: TransmissionRequest) =
         request(client).flatMap {
@@ -45,7 +45,11 @@ class TransmissionClient(
                 HttpStatus.CONFLICT -> handleConflict(it, request)
                 else -> it.toMono()
             }
-        }
+        }.flatMap(::toClientResponse)
+
+    private fun toClientResponse(clientResponse: ClientResponse) =
+        clientResponse.bodyToMono(RpcResponse::class.java)
+            .doOnNext { logger.debug("RpcResponse: {}", mapper.writeValueAsString(it)) }
 
     private fun handleConflict(it: ClientResponse, request: TransmissionRequest): Mono<ClientResponse> {
         return it.bodyToMono(String::class.java).flatMap {
