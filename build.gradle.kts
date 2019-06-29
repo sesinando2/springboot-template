@@ -7,9 +7,6 @@ buildscript {
     repositories {
         mavenCentral()
         jcenter()
-        maven { setUrl("https://repo.spring.io/snapshot") }
-        maven { setUrl("https://repo.spring.io/milestone") }
-        maven { setUrl("https://repo.spring.io/release") }
     }
 
     dependencies {
@@ -25,24 +22,6 @@ plugins {
     kotlin("plugin.spring") version "1.2.71"
     kotlin("kapt") version "1.2.71"
     id("com.gorylenko.gradle-git-properties") version "2.0.0"
-    `maven-publish`
-}
-
-publishing {
-    publications {
-        create<MavenPublication>("bootJava") {
-            artifact(tasks.getByName("bootJar"))
-        }
-    }
-    repositories {
-        maven {
-            url = uri("http://mini:8081/nexus/content/repositories/snapshots")
-            credentials {
-                username = "deployment"
-                password = "deployment123"
-            }
-        }
-    }
 }
 
 /* Start Liquibase Config */
@@ -77,9 +56,6 @@ val developmentOnly: Configuration by configurations.creating {
 
 repositories {
     mavenCentral()
-    maven {
-        url = uri("http://mini:8081/nexus/content/repositories/snapshots")
-    }
 }
 
 dependencies {
