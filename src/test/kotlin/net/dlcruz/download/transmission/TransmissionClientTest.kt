@@ -17,7 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment.NONE
 import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock
 import reactor.test.StepVerifier
 import java.io.InputStreamReader
-import java.util.*
+import java.util.* // ktlint-disable no-wildcard-imports
 import java.util.stream.Stream
 
 @SpringBootTest(classes = [TestConfiguration::class], webEnvironment = NONE)

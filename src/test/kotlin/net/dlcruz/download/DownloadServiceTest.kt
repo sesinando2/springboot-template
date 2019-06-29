@@ -5,7 +5,7 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import net.dlcruz.config.TestConfiguration
-import net.dlcruz.download.Download.*
+import net.dlcruz.download.Download.* // ktlint-disable no-wildcard-imports
 import net.dlcruz.download.transmission.RpcResponse
 import net.dlcruz.download.transmission.TransmissionClient
 import net.dlcruz.util.TestHelper
