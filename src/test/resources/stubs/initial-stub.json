@@ -1,4 +1,5 @@
 {
+  "priority": 1000,
   "request": {
     "method": "POST",
     "url": "/transmission/rpc"

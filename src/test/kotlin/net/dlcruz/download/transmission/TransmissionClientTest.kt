@@ -57,6 +57,22 @@ class TransmissionClientTest(
             .withRequestBody(matchingJsonPath("$.arguments.filename", equalTo(link))))
     }
 
+    @Test
+    fun `should be able to add duplicate torrent`() {
+        val link = "http://duplicate-link.com"
+        val publisher = client.add(link)
+
+        val responseRepsonse = TestHelper.readAsStream("add-torrent-response-duplicate.json").readAllBytes()
+        val expectedResponse = mapper.readValue<RpcResponse>(responseRepsonse, RpcResponse::class.java)
+
+        StepVerifier.create(publisher).expectNext(expectedResponse).expectComplete().verify()
+
+        verify(moreThanOrExactly(1), postRequestedFor(urlEqualTo("/transmission/rpc"))
+            .withHeader("X-Transmission-Session-Id", equalTo("TlTPAGWbQttbSL9RT7rXDTj1ir81J0tbnVUm0zeBnqBFlWNQ"))
+            .withRequestBody(matchingJsonPath("$.method", equalTo("torrent-add")))
+            .withRequestBody(matchingJsonPath("$.arguments.filename", equalTo(link))))
+    }
+
     @ParameterizedTest
     @MethodSource("deleteDataProvider")
     fun `should be able to delete torrent`(id: Int, deleteLocalData: Boolean) {
