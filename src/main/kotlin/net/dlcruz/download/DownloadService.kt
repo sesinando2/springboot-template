@@ -40,7 +40,7 @@ class DownloadService(private val transmissionClient: TransmissionClient) {
 
     private fun getStatus(node: JsonNode): Status {
         val status = node.get(GetFields.STATUS).asInt()
-        return when(status) {
+        return when (status) {
             0 -> Status.STOPPED
             1, 2 -> Status.CHECK
             3, 4 -> Status.DOWNLOAD
