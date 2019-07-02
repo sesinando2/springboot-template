@@ -1,48 +1,20 @@
 package net.dlcruz.download
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import io.mockk.every
-import io.mockk.mockk
-import io.mockk.verify
-import net.dlcruz.config.TestConfiguration
-import net.dlcruz.download.Download.* // ktlint-disable no-wildcard-imports
-import net.dlcruz.download.transmission.RpcResponse
-import net.dlcruz.download.transmission.TransmissionClient
-import net.dlcruz.util.TestHelper
-import org.junit.jupiter.api.BeforeEach
+import net.dlcruz.config.TransmissionStub
+import net.dlcruz.download.Download.Status
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.client.AutoConfigureWebClient
-import org.springframework.boot.test.context.SpringBootTest
-import reactor.core.publisher.toMono
 import reactor.test.StepVerifier
 
-@SpringBootTest(classes = [TestConfiguration::class], webEnvironment = SpringBootTest.WebEnvironment.NONE)
-@AutoConfigureWebClient
+@TransmissionStub
 class DownloadServiceTest(
     @Autowired
-    private val mapper: ObjectMapper
+    private val downloadService: DownloadService
 ) {
-
-    private lateinit var transmissionClient: TransmissionClient
-    private lateinit var downloadService: DownloadService
-
-    @BeforeEach
-    fun setup() {
-        transmissionClient = mockk()
-        downloadService = DownloadService(transmissionClient)
-    }
 
     @Test
     fun `should return download list`() {
-        val responseResource = TestHelper.readAsStream("get-torrent-response.json").readAllBytes()
-        val getTorrentResponse = mapper.readValue<RpcResponse>(responseResource, RpcResponse::class.java)
-
-        every { transmissionClient.list() } returns getTorrentResponse.toMono()
-
         val result = downloadService.list()
-
-        verify(exactly = 1) { transmissionClient.list() }
 
         StepVerifier.create(result)
             .expectNext(
