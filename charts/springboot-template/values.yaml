@@ -14,7 +14,7 @@ env:
 knativeDeploy: false
 
 service:
-  name: download-service
+  name: springboot-template
   type: ClusterIP
   externalPort: 80
   internalPort: 8080
