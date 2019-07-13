@@ -28,7 +28,7 @@ class TransmissionClientTest(
     fun `should get list of torrent`() {
         val publisher = client.list()
 
-        val responseResource = TestHelper.readAsStream("get-torrent-response.json").readAllBytes()
+        val responseResource = TestHelper.readAsStream("get-torrent-response.json").readBytes()
         val expectedResponse = mapper.readValue<RpcResponse>(responseResource, RpcResponse::class.java)
 
         val requestResource = TestHelper.readAsStream("get-torrent-request.json")
@@ -46,7 +46,7 @@ class TransmissionClientTest(
         val link = "http://download-link.com"
         val publisher = client.add(link)
 
-        val responseResource = TestHelper.readAsStream("add-torrent-response.json").readAllBytes()
+        val responseResource = TestHelper.readAsStream("add-torrent-response.json").readBytes()
         val expectedResponse = mapper.readValue<RpcResponse>(responseResource, RpcResponse::class.java)
 
         StepVerifier.create(publisher).expectNext(expectedResponse).expectComplete().verify()
@@ -62,7 +62,7 @@ class TransmissionClientTest(
         val link = "http://duplicate-link.com"
         val publisher = client.add(link)
 
-        val responseRepsonse = TestHelper.readAsStream("add-torrent-response-duplicate.json").readAllBytes()
+        val responseRepsonse = TestHelper.readAsStream("add-torrent-response-duplicate.json").readBytes()
         val expectedResponse = mapper.readValue<RpcResponse>(responseRepsonse, RpcResponse::class.java)
 
         StepVerifier.create(publisher).expectNext(expectedResponse).expectComplete().verify()
@@ -78,7 +78,7 @@ class TransmissionClientTest(
     fun `should be able to delete torrent`(id: Int, deleteLocalData: Boolean) {
         val publisher = client.delete(id, deleteLocalData = deleteLocalData)
 
-        val responseResource = TestHelper.readAsStream("delete-torrent-response.json").readAllBytes()
+        val responseResource = TestHelper.readAsStream("delete-torrent-response.json").readBytes()
         val expectedResponse = mapper.readValue<RpcResponse>(responseResource, RpcResponse::class.java)
 
         StepVerifier.create(publisher).expectNext(expectedResponse).expectComplete().verify()
