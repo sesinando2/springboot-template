@@ -1,4 +1,4 @@
-# springboot-template
+# download-service
 
 ## Import to Jenkins X
 - `jx import`
