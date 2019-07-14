@@ -1,4 +1,4 @@
-# springboot-template
+# torrent-search
 
 ## Import to Jenkins X
 - `jx import`

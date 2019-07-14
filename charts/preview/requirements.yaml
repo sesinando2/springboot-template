@@ -12,5 +12,5 @@ dependencies:
   # !! "alias: preview" must be last entry in dependencies array !!
   # !! Place custom dependencies above !!
 - alias: preview
-  name: springboot-template
-  repository: file://../springboot-template
+  name: torrent-search
+  repository: file://../torrent-search

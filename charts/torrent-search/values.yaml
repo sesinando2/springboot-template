@@ -14,7 +14,7 @@ env:
 knativeDeploy: false
 
 service:
-  name: springboot-template
+  name: torrent-search
   type: ClusterIP
   externalPort: 80
   internalPort: 8080
